@@ -1,0 +1,90 @@
+add_newline = false
+
+
+format = """
+(([( $git_branch)( $git_status)( $git_metrics)](bg:8)[](fg:8))\
+$fill\
+([](fg:6)[$dotnet$nodejs](fg:0 bg:6))\
+$line_break)\
+[ $shell( ${custom.admin}) $username[@](fg:8 bg:4)$hostname ](fg:0 bg:4)[](bg:2 fg:4)\
+[ $directory](fg:0 bg:2)[](fg:2)\
+$fill\
+[](fg:8)([$status  ](bg:8))[($cmd_duration  )$time ](bg:8)\
+[$line_break](bg:8)\
+$character\
+"""
+
+[character]
+  error_symbol= "[❯](bold red)"
+
+[time]
+disabled =  false
+format = "$time"
+
+[status]
+disabled = false
+recognize_signal_code = true
+map_symbol = true
+not_executable_symbol="ﰸ"
+not_found_symbol=""
+sigint_symbol=""
+style = "bold fg:1 bg:8"
+format = "[symbol $status $common_meaning$signal_name$maybe_int]($style)"
+
+[cmd_duration]
+show_notifications = true
+format = "took [$duration](fg:11 bg:8)"
+
+[shell]
+disabled = false
+zsh_indicator = ""
+powershell_indicator = ""
+format = "$indicator"
+
+[shlvl]
+threshold = 3
+disabled = false
+style = "bg:4"
+symbol = ""
+format = "[ $symbol$shlvl]($style)"
+
+[username]
+show_always = true
+style_user = "bold fg:0 bg:4"
+format = "[$user]($style)"
+
+[hostname]
+ssh_only = false
+format = "$hostname"
+
+[directory]
+read_only = " "
+format = " $path( $read_only)"
+
+[git_branch]
+format = " $branch"
+[git_status]
+format = "(\\[$all_status$ahead_behind\\])"
+
+[git_metrics]
+disabled = false
+added_style = "bright-green bg:8"
+deleted_style = "red bg:8"
+format = "([+$added]($added_style))( [-$deleted]($deleted_style))"
+
+[fill]
+symbol = " "
+
+[nodejs]
+format = "$symbol $version"
+
+[dotnet]
+format = " $version(  $tfm)"
+detect_extensions = ["csproj", "sln"]
+detect_files = []
+
+[custom.admin]
+when = 'if ((New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) -eq $false) { exit 1 }'
+os = "windows"
+symbol = ""
+format = "[ $symbol](bg:4)"

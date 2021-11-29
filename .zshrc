@@ -67,7 +67,8 @@ zinit ice atinit"
   ZSH_TMUX_FIXTERM_WITH_256COLOR=tmux-256color;
   ZSH_TMUX_FIXTERM_WITHOUT_256COLOR=tmux;
   ZSH_TMUX_FIXTERM=true;
-  ZSH_TMUX_AUTOSTART=true;" \
+  ZSH_TMUX_AUTOSTART=true;
+  ZSH_TMUX_DEFAULT_SESSION_NAME=Home" \
   svn src="tmux.plugin.zsh"
 zinit snippet OMZP::tmux
 

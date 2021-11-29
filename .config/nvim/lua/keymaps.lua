@@ -21,10 +21,10 @@ local keymaps = function()
               ['l'] = { 'clean_plugins', 'Clean Plugins' },
             },
           },
-          ['n'] = { 'next_tab', 'Next Tab' },
-          ['p'] = { 'prev_tab', 'Previous Tab'},
-          ['N'] = { 'swap_next_tab', 'Swap Next Tab' },
-          ['P'] = { 'swap_prev_tab', 'Swap Previous Tab'}
+          ['l'] = { 'next_tab', 'Next Tab' },
+          ['h'] = { 'prev_tab', 'Previous Tab'},
+          ['L'] = { 'swap_next_tab', 'Swap Next Tab' },
+          ['H'] = { 'swap_prev_tab', 'Swap Previous Tab'}
         },
       }
     end,

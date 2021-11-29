@@ -75,7 +75,7 @@ local lsp = function()
         vim.cmd [[
           aug LspBuffer
             au! * <buffer>
-            au CursorHold <buffer> lua vim.diagnostic.open_float( 0, { focusable = false, show_header = false, scope = 'line' })
+            au CursorHold <buffer> lua vim.diagnostic.open_float( 0, { focusable = false, show_header = false, scope = 'cursor' })
           aug END
         ]]
       end

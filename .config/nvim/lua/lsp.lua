@@ -51,6 +51,7 @@ local lsp = function()
     border = 'single',
   })
 
+
   local gutter_signs = {
     Error = '',
     Warn = '',
@@ -72,6 +73,12 @@ local lsp = function()
 
       local on_attach = function(client, bufnr)
         decoupled.activate('keymaps', 'lsp', bufnr)
+        vim.cmd [[
+          highlight DiagnosticUnderlineError gui=underline guifg=Red
+          highlight DiagnosticUnderlineWarn gui=underline guifg=DarkYellow
+          highlight DiagnosticUnderlineInfo gui=underline guifg=DarkCyan
+          highlight DiagnosticUnderlineHint gui=underline guifg=SeaGreen
+        ]]
         vim.cmd [[
           aug LspBuffer
             au! * <buffer>

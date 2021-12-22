@@ -20,21 +20,6 @@ local general = function()
   handle { 'compile_plugins', ':PackerCompile' }
   handle { 'clean_plugins', ':PackerClean' }
 
-  handle { 'next_tab', ':tabnext'}
-  handle { 'prev_tab', ':tabprevious'}
-  handle { 'swap_next_tab', ':+tabmove'}
-  handle { 'swap_prev_tab', ':-tabmove'}
-
-  handle {
-    'get_titlestring',
-    function()
-      local devicons = require 'nvim-web-devicons'
-      local f_name, f_extension = vim.fn.expand '%:t', vim.fn.expand '%:e'
-      local icon = devicons.get_icon(f_name, f_extension)
-      return (icon or '') .. ' ' .. f_name
-    end,
-  }
-
   vim.cmd [[
     aug General
       au!
@@ -43,7 +28,6 @@ local general = function()
   ]]
 
   o.title = true
-  o.titlestring = "%{%v:lua.require'decoupled'.call_handler('general','get_titlestring')%}"
 
   g.loaded_perl_provider = 0
   g.loaded_ruby_provider = 0
@@ -69,7 +53,17 @@ local general = function()
   o.expandtab = true
 
   plugin 'wbthomason/packer.nvim'
-  plugin '~/projects/which-key.nvim'
+  plugin {
+    '~/projects/which-key.nvim',
+    config = function()
+      require('which-key').setup {
+        plugins = {
+          marks = false
+        }
+      }
+
+    end
+  }
   plugin 'tpope/vim-repeat'
   plugin {
     'editorconfig/editorconfig-vim',

@@ -21,10 +21,6 @@ local keymaps = function()
               ['l'] = { 'clean_plugins', 'Clean Plugins' },
             },
           },
-          ['l'] = { 'next_tab', 'Next Tab' },
-          ['h'] = { 'prev_tab', 'Previous Tab'},
-          ['L'] = { 'swap_next_tab', 'Swap Next Tab' },
-          ['H'] = { 'swap_prev_tab', 'Swap Previous Tab'}
         },
       }
     end,
@@ -116,8 +112,35 @@ local keymaps = function()
       map { '<M-k>', 'resize_up' }
       map { '<M-l>', 'resize_right' }
       map { '<C-p>', 'find_files' }
+      map { '<C-f>', 'find_string' }
       map { '-', 'show_file' }
       map { '<C-b>', 'file_tree' }
+      register {
+        ["'"] = {
+          name = 'Navigation',
+          ['<space>'] = { 'mark_file', 'Mark File'},
+          ["'"] = { 'quick_nav_menu', 'Mark Menu'},
+          ['j'] = { 'quick_nav_next', 'Next Marked File'},
+          ['k'] = { 'quick_nav_prev', 'Previous Marked File'},
+          ['1'] = { 'quick_nav_1', 'Mark 1'},
+          ['2'] = { 'quick_nav_2', 'Mark 2'},
+          ['3'] = { 'quick_nav_3', 'Mark 3'},
+          ['4'] = { 'quick_nav_4', 'Mark 4'},
+          ['5'] = { 'quick_nav_5', 'Mark 5'},
+          ['s'] = { 'horizontal_split', 'Split Horizontally' },
+          ['v'] = { 'vertical_split', 'Split Vertically' },
+          ['q'] = { 'close_window', 'Quit Window' },
+          ['t'] = {
+            name = 'Tabs',
+            ['n'] = { 'new_tab', 'New Tab' },
+            ['q'] = { 'quit_tab', 'Quit Tab' },
+          },
+          ['l'] = { 'next_tab', 'Next Tab' },
+          ['h'] = { 'prev_tab', 'Previous Tab' },
+          ['L'] = { 'swap_next_tab', 'Swap Next Tab' },
+          ['H'] = { 'swap_prev_tab', 'Swap Previous Tab' },
+        }
+      }
     end,
   }
 
@@ -149,25 +172,6 @@ local keymaps = function()
       register({
         ['<leader>'] = {
           ['F'] = { 'format_file', 'Format File' },
-          ['J'] = { 'ts_swap_next_block', 'Swap Next Block' },
-          ['K'] = { 'ts_swap_prev_block', 'Swap Previous Block' },
-          ['f'] = {
-            name = 'Function',
-            ['d'] = { 'ts_peek_function', 'Peek Function' },
-            ['J'] = { 'ts_swap_next_function', 'Swap Next Function' },
-            ['K'] = { 'ts_swap_prev_function', 'Swap Previous Function' },
-          },
-          ['c'] = {
-            name = 'Class',
-            ['d'] = { 'ts_peek_class', 'Peek Class' },
-            ['J'] = { 'ts_swap_next_class', 'Swap Next Class' },
-            ['K'] = { 'ts_swap_prev_class', 'Swap Previous Class' },
-          },
-          ['a'] = {
-            name = 'Argument',
-            ['J'] = { 'ts_swap_next_parameter', 'Swap Next Argument' },
-            ['K'] = { 'ts_swap_prev_parameter', 'Swap Previous Argument' },
-          },
         },
       }, { buffer = bufnr, mode = 'n' })
 
@@ -187,15 +191,12 @@ local keymaps = function()
           ['d'] = { 'document_symbols' },
           ['w'] = { 'workspace_symbols' },
         },
-        ['l'] = {
-          name = 'LSP',
-          ['i'] = { 'language_server_info', 'Server Info' },
-          ['r'] = { 'restart_language_server', 'Restart Server' },
-        },
-        ['g'] = {
-          name = 'Peek',
-          ['f'] = { 'ts_peek_function', 'Peek Function' },
-          ['c'] = { 'ts_peek_class', 'Peek Class' },
+        ['v'] = {
+          ['l'] = {
+            name = 'LSP',
+            ['i'] = { 'language_server_info', 'Server Info' },
+            ['r'] = { 'restart_language_server', 'Restart Server' },
+          },
         },
       }, { prefix = '<leader>', buffer = bufnr })
     end,

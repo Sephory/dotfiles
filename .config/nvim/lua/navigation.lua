@@ -10,8 +10,30 @@ local navigation = function()
   handle { 'resize_right', { 'tmux', 'resize_right' } }
 
   handle { 'find_files', { 'telescope.builtin', 'find_files' } }
+  handle { 'find_string', { 'telescope.builtin', 'live_grep' } }
   handle { 'show_file', ':NnnPicker %p' }
   handle { 'file_tree', ':NnnExplorer %p:h' }
+
+  handle { 'new_tab', ':tabnew' }
+  handle { 'quit_tab', ':tabclose' }
+  handle { 'next_tab', ':tabnext' }
+  handle { 'prev_tab', ':tabprevious' }
+  handle { 'swap_next_tab', ':+tabmove' }
+  handle { 'swap_prev_tab', ':-tabmove' }
+
+  handle { 'close_window', ':q'}
+  handle { 'horizontal_split', ':split'}
+  handle { 'vertical_split', ':vsplit'}
+
+  handle { 'mark_file', { 'harpoon.mark', 'add_file' } }
+  handle { 'quick_nav_menu', { 'harpoon.ui', 'toggle_quick_menu' } }
+  handle { 'quick_nav_next', { 'harpoon.ui', 'nav_next' } }
+  handle { 'quick_nav_prev', { 'harpoon.ui', 'nav_prev' } }
+  handle { 'quick_nav_1', { 'harpoon.ui', 'nav_file' }, args = {1} }
+  handle { 'quick_nav_2', { 'harpoon.ui', 'nav_file' }, args = {2} }
+  handle { 'quick_nav_3', { 'harpoon.ui', 'nav_file' }, args = {3} }
+  handle { 'quick_nav_4', { 'harpoon.ui', 'nav_file' }, args = {4} }
+  handle { 'quick_nav_5', { 'harpoon.ui', 'nav_file' }, args = {5} }
 
   plugin {
     'aserowy/tmux.nvim',
@@ -28,6 +50,13 @@ local navigation = function()
   }
 
   plugin {
+    'ThePrimeagen/harpoon',
+    requires = {
+      'nvim-lua/plenary.nvim',
+    },
+  }
+
+  plugin {
     'nvim-telescope/telescope.nvim',
     requires = {
       { 'nvim-lua/plenary.nvim' },
@@ -36,6 +65,23 @@ local navigation = function()
         run = 'make',
       },
     },
+    config = function()
+      local telescope = require 'telescope'
+
+      telescope.setup {
+        pickers = {
+          find_files = {
+            theme = 'dropdown',
+            previewer = false,
+          },
+          lsp_code_actions = {
+            theme = 'cursor',
+          },
+        },
+      }
+
+      telescope.load_extension 'fzf'
+    end,
   }
 
   plugin {

@@ -18,6 +18,39 @@ local appearance = function()
 
   handle { 'zen_mode', ':ZenMode' }
 
+  handle {
+    'active_window',
+    function()
+      local wo = vim.wo
+      wo.cursorline = true
+      wo.relativenumber = true
+
+      local devicons = require 'nvim-web-devicons'
+      local f_name, f_extension = vim.fn.expand '%:t', vim.fn.expand '%:e'
+      local icon = devicons.get_icon(f_name, f_extension)
+      local title = (icon or '') .. ' ' .. f_name
+      vim.o.titlestring = title
+    end
+  }
+
+  handle {
+    'inactive_window',
+    function()
+      local wo = vim.wo
+      wo.cursorline = false
+      wo.relativenumber = false
+    end
+  }
+
+  vim.cmd [[
+    aug ActiveWindow
+      au!
+      au BufWinEnter * lua require('decoupled').call_handler('appearance', 'active_window')
+      au WinEnter * lua require('decoupled').call_handler('appearance', 'active_window')
+      au WinLeave * lua require('decoupled').call_handler('appearance', 'inactive_window')
+    aug END
+  ]]
+
   plugin {
     'nvim-lualine/lualine.nvim',
     as = 'lualine',
@@ -77,7 +110,7 @@ local appearance = function()
         },
         plugins = {
           tmux = {
-   enabled = true,
+            enabled = true,
           },
         },
       }

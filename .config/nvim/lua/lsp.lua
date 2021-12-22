@@ -4,7 +4,7 @@ local lsp = function()
   handle { 'signature_help', { 'vim.lsp.buf', 'signature_help' } }
   handle { 'rename', { 'vim.lsp.buf', 'rename' } }
   handle { 'line_diagnostics', { 'vim.diagnostic', 'open_float' }, args = { 0, { focusable = false } } }
-  handle { 'code_action', { 'vim.lsp.buf', 'code_action' } }
+  handle { 'code_action', { 'telescope.builtin', 'lsp_code_actions' } }
   handle { 'next_diagnostic', { 'vim.diagnostic', 'goto_next' } }
   handle { 'prev_diagnostic', { 'vim.diagnostic', 'goto_prev' } }
   handle { 'restart_language_server', ':LspRestart' }
@@ -51,7 +51,6 @@ local lsp = function()
     border = 'single',
   })
 
-
   local gutter_signs = {
     Error = '',
     Warn = '',
@@ -74,10 +73,10 @@ local lsp = function()
       local on_attach = function(client, bufnr)
         decoupled.activate('keymaps', 'lsp', bufnr)
         vim.cmd [[
-          highlight DiagnosticUnderlineError gui=underline guifg=Red
-          highlight DiagnosticUnderlineWarn gui=underline guifg=DarkYellow
-          highlight DiagnosticUnderlineInfo gui=underline guifg=DarkCyan
-          highlight DiagnosticUnderlineHint gui=underline guifg=SeaGreen
+          highlight! link DiagnosticUnderlineError DiagnosticError
+          highlight! link DiagnosticUnderlineWarn DiagnosticWarn
+          highlight! link DiagnosticUnderlineInfo DiagnosticInfo
+          highlight! link DiagnosticUnderlineHint DiagnosticHint
         ]]
         vim.cmd [[
           aug LspBuffer
@@ -89,15 +88,25 @@ local lsp = function()
 
       local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-      local servers = require 'lsp.base_servers'
+      local base_config = {
+        on_attach = on_attach,
+        capabilities = capabilities
+      }
+
+      local servers = {}
+
+      servers['cssls'] = {}
+      servers['html'] = {}
+      servers['jsonls'] = {}
+      servers['eslint'] = {}
+      servers['clangd'] = {}
       servers['omnisharp'] = require 'lsp.omnisharp'
       servers['sumneko_lua'] = require 'lsp.sumneko_lua'
       servers['efm'] = require 'lsp.efm'
       servers['volar'] = require 'lsp.volar'
 
       for server, config in pairs(servers) do
-        config.capabilities = capabilities
-        config.on_attach = on_attach
+        config = vim.tbl_deep_extend('keep', config, base_config)
         lspconfig[server].setup(config)
       end
     end,
@@ -107,7 +116,7 @@ local lsp = function()
     'folke/lsp-colors.nvim',
     config = function()
       require('lsp-colors').setup {}
-    end
+    end,
   }
 
   submodule {

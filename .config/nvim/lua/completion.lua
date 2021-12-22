@@ -38,8 +38,7 @@ local completion = function()
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       {
-        'andersevenrud/compe-tmux',
-        branch = 'cmp',
+        'andersevenrud/cmp-tmux',
       },
       'hrsh7th/cmp-nvim-lua',
       'hrsh7th/cmp-calc',

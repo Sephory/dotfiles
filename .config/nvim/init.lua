@@ -7,7 +7,7 @@ local config_modules = {
     'telescope',
   } },
   { 'appearance', {
-    'tokyonight',
+    'onedark',
   } },
   'motion',
   'navigation',

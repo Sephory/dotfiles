@@ -27,10 +27,12 @@ local appearance = function()
 
       local devicons = require 'nvim-web-devicons'
       local f_name, f_extension = vim.fn.expand '%:t', vim.fn.expand '%:e'
-      local icon = devicons.get_icon(f_name, f_extension)
-      local title = (icon or '') .. ' ' .. f_name
-      vim.o.titlestring = title
-    end
+      if f_name ~= '' then
+        local icon = devicons.get_icon(f_name, f_extension)
+        local title = (icon or '') .. ' ' .. f_name
+        vim.o.titlestring = title
+      end
+    end,
   }
 
   handle {
@@ -39,7 +41,7 @@ local appearance = function()
       local wo = vim.wo
       wo.cursorline = false
       wo.relativenumber = false
-    end
+    end,
   }
 
   vim.cmd [[

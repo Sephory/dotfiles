@@ -26,7 +26,8 @@ local motion = function()
   handle { 'ts_in_parameter', { 'nvim-treesitter.textobjects.select', 'select_textobject' }, args = { '@parameter.inner' } }
   handle { 'ts_around_parameter', { 'nvim-treesitter.textobjects.select', 'select_textobject' }, args = { '@parameter.outer' } }
 
-  handle { 'jump_to_line', ':HopLineStart' }
+  handle { 'jump_to_line_up', ':HopLineStartBC' }
+  handle { 'jump_to_line_down', ':HopLineStartAC' }
   handle { 'jump_to_word', ':HopWord' }
   handle { 'jump_to_char', ':HopChar1' }
   handle { 'jump_search', ':HopPattern' }

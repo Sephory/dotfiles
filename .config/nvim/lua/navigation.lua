@@ -21,19 +21,19 @@ local navigation = function()
   handle { 'swap_next_tab', ':+tabmove' }
   handle { 'swap_prev_tab', ':-tabmove' }
 
-  handle { 'close_window', ':q'}
-  handle { 'horizontal_split', ':split'}
-  handle { 'vertical_split', ':vsplit'}
+  handle { 'close_window', ':q' }
+  handle { 'horizontal_split', ':split' }
+  handle { 'vertical_split', ':vsplit' }
 
   handle { 'mark_file', { 'harpoon.mark', 'add_file' } }
   handle { 'quick_nav_menu', { 'harpoon.ui', 'toggle_quick_menu' } }
   handle { 'quick_nav_next', { 'harpoon.ui', 'nav_next' } }
   handle { 'quick_nav_prev', { 'harpoon.ui', 'nav_prev' } }
-  handle { 'quick_nav_1', { 'harpoon.ui', 'nav_file' }, args = {1} }
-  handle { 'quick_nav_2', { 'harpoon.ui', 'nav_file' }, args = {2} }
-  handle { 'quick_nav_3', { 'harpoon.ui', 'nav_file' }, args = {3} }
-  handle { 'quick_nav_4', { 'harpoon.ui', 'nav_file' }, args = {4} }
-  handle { 'quick_nav_5', { 'harpoon.ui', 'nav_file' }, args = {5} }
+  handle { 'quick_nav_1', { 'harpoon.ui', 'nav_file' }, args = { 1 } }
+  handle { 'quick_nav_2', { 'harpoon.ui', 'nav_file' }, args = { 2 } }
+  handle { 'quick_nav_3', { 'harpoon.ui', 'nav_file' }, args = { 3 } }
+  handle { 'quick_nav_4', { 'harpoon.ui', 'nav_file' }, args = { 4 } }
+  handle { 'quick_nav_5', { 'harpoon.ui', 'nav_file' }, args = { 5 } }
 
   plugin {
     'aserowy/tmux.nvim',
@@ -50,10 +50,17 @@ local navigation = function()
   }
 
   plugin {
-    'ThePrimeagen/harpoon',
+    'sephory/harpoon',
     requires = {
       'nvim-lua/plenary.nvim',
     },
+    config = function()
+      require('harpoon').setup {
+        global_settings = {
+          goto_window = true,
+        },
+      }
+    end,
   }
 
   plugin {
@@ -69,10 +76,21 @@ local navigation = function()
       local telescope = require 'telescope'
 
       telescope.setup {
+        defaults = {
+          layout_strategy = 'vertical',
+          layout_config = {
+            vertical = {
+              preview_height = 0.75,
+            },
+          },
+        },
         pickers = {
           find_files = {
             theme = 'dropdown',
             previewer = false,
+            layout_config = {
+              preview_height = nil,
+            },
           },
           lsp_code_actions = {
             theme = 'cursor',
@@ -81,6 +99,7 @@ local navigation = function()
       }
 
       telescope.load_extension 'fzf'
+      telescope.load_extension 'harpoon'
     end,
   }
 

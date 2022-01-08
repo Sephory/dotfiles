@@ -54,7 +54,7 @@ local general = function()
 
   plugin 'wbthomason/packer.nvim'
   plugin {
-    '~/projects/which-key.nvim',
+    'folke/which-key.nvim',
     config = function()
       require('which-key').setup {
         plugins = {

@@ -42,6 +42,13 @@ local lsp = function()
 
   handle { 'format_file', { 'vim.lsp.buf', 'formatting' } }
 
+  vim.lsp.util.apply_text_document_edit = function(text_document_edit, index)
+    local text_document = text_document_edit.textDocument
+    local bufnr = vim.uri_to_bufnr(text_document.uri)
+
+    vim.lsp.util.apply_text_edits(text_document_edit.edits, bufnr)
+  end
+
   vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics,
     { virtual_text = false, underline = true }
@@ -125,8 +132,7 @@ local lsp = function()
       handle { 'definitions', { 'telescope.builtin', 'lsp_definitions' } }
       handle { 'references', { 'telescope.builtin', 'lsp_references' } }
       handle { 'implementations', { 'telescope.builtin', 'lsp_implementations' } }
-      handle { 'document_diagnostics', { 'telescope.builtin', 'lsp_document_diagnostics' } }
-      handle { 'workspace_diagnostics', { 'telescope.builtin', 'lsp_workspace_diagnostics' } }
+      handle { 'document_diagnostics', { 'telescope.builtin', 'diagnostics' } }
       handle { 'document_symbols', { 'telescope.builtin', 'lsp_document_symbols' } }
       handle { 'workspace_symbols', { 'telescope.builtin', 'lsp_dynamic_workspace_symbols' } }
     end,

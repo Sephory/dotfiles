@@ -44,8 +44,9 @@ local keymaps = function()
       register({
         ['<space>'] = {
           name = 'Jump To',
-          ['<space>'] = { 'jump_to_line', 'Line' },
-          ['w'] = { 'jump_to_word', 'Word' },
+          ['<space>'] = { 'jump_to_word', 'Word' },
+          ['k'] = { 'jump_to_line_up', 'Up' },
+          ['j'] = { 'jump_to_line_down', 'Down' },
           ['f'] = { 'jump_to_char', 'Character' },
           ['/'] = { 'jump_search', 'Search Pattern' },
         },
@@ -182,7 +183,6 @@ local keymaps = function()
           name = 'Diagnostics',
           ['l'] = { 'line_diagnostics', 'Line Diagnostics' },
           ['d'] = { 'document_diagnostics', 'Document Diagnostics' },
-          ['w'] = { 'workspace_diagnostics', 'Workspace Diagnostics' },
           ['p'] = { 'prev_diagnostic', 'Previous Diagnostic' },
           ['n'] = { 'next_diagnostic', 'Next Diagnostic' },
         },

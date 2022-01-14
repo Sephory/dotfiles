@@ -13,4 +13,5 @@ local git = function()
   plugin 'tpope/vim-fugitive'
 end
 
+
 return git

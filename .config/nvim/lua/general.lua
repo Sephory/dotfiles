@@ -20,6 +20,35 @@ local general = function()
   handle { 'compile_plugins', ':PackerCompile' }
   handle { 'clean_plugins', ':PackerClean' }
 
+  handle {
+    'clear_hidden_buffers',
+    function()
+      local active_buffers = {}
+      for _, winnr in ipairs(vim.api.nvim_list_wins()) do
+        table.insert(active_buffers, vim.api.nvim_win_get_buf(winnr))
+      end
+
+      local buf_should_close = function(bufnr)
+        for _, active in ipairs(active_buffers) do
+          if active == bufnr then
+            return false
+          end
+        end
+        return vim.api.nvim_buf_is_loaded(bufnr) and not vim.bo[bufnr].modified
+      end
+
+      local closed_buffers = 0
+      for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+        if buf_should_close(bufnr) then
+          vim.api.nvim_buf_delete(bufnr, {})
+          closed_buffers = closed_buffers + 1
+        end
+      end
+      local closed_message = 'Closed ' .. closed_buffers .. ' buffers'
+      print(closed_message)
+    end,
+  }
+
   vim.cmd [[
     aug General
       au!
@@ -58,11 +87,10 @@ local general = function()
     config = function()
       require('which-key').setup {
         plugins = {
-          marks = false
-        }
+          marks = false,
+        },
       }
-
-    end
+    end,
   }
   plugin 'tpope/vim-repeat'
   plugin {
@@ -70,7 +98,7 @@ local general = function()
     config = function()
       vim.g.EditorConfig_max_line_indicator = 'fill'
       vim.g.EditorConfig_preserve_formatoptions = 1
-    end
+    end,
   }
 
   submodule {

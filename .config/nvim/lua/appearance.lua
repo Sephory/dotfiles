@@ -137,8 +137,10 @@ local appearance = function()
         'navarasu/onedark.nvim',
         after = { 'lualine', 'blankline' },
         config = function()
-          vim.g.onedark_toggle_style_keymap = '<leader>vcc'
-          require('onedark').setup()
+          require('onedark').setup {
+            style = 'darker',
+            toggle_style_key = '<leader>vcc'
+          }
           vim.cmd [[colorscheme onedark]]
         end,
       }

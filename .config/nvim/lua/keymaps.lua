@@ -20,6 +20,7 @@ local keymaps = function()
               ['c'] = { 'compile_plugins', 'Compile Plugins' },
               ['l'] = { 'clean_plugins', 'Clean Plugins' },
             },
+            ['x'] = { 'clear_hidden_buffers', 'Close Hidden Buffers'}
           },
         },
       }

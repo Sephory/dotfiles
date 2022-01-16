@@ -25,10 +25,12 @@ local appearance = function()
       wo.cursorline = true
       wo.relativenumber = true
 
-      local devicons = require 'nvim-web-devicons'
       local f_name, f_extension = vim.fn.expand '%:t', vim.fn.expand '%:e'
+      local devicons_loaded, devicons = pcall(require, 'nvim-web-devicons')
       if f_name ~= '' then
-        local icon = devicons.get_icon(f_name, f_extension)
+        if devicons_loaded then
+          local icon = devicons.get_icon(f_name, f_extension)
+        end
         local title = (icon or '') .. ' ' .. f_name
         vim.o.titlestring = title
       end
@@ -139,7 +141,7 @@ local appearance = function()
         config = function()
           require('onedark').setup {
             style = 'darker',
-            toggle_style_key = '<leader>vcc'
+            toggle_style_key = '<leader>vcc',
           }
           vim.cmd [[colorscheme onedark]]
         end,

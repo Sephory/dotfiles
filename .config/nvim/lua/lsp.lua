@@ -78,7 +78,7 @@ local lsp = function()
       local decoupled = require 'decoupled'
 
       local on_attach = function(client, bufnr)
-        decoupled.activate('keymaps', 'lsp', bufnr)
+        decoupled.activate('keymaps', 'buffer_lsp', bufnr)
         vim.cmd [[
           highlight! link DiagnosticUnderlineError DiagnosticError
           highlight! link DiagnosticUnderlineWarn DiagnosticWarn

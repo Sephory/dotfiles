@@ -48,7 +48,7 @@ local completion = function()
       local cmp = require 'cmp'
       local luasnip = require 'luasnip'
       local lspkind = require 'lspkind'
-      local key = require('decoupled').get_keys 'completion'
+      local key = require('decoupled').get_keys 'keymaps'
 
       cmp.setup {
         snippet = {

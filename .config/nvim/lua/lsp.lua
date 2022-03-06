@@ -80,10 +80,10 @@ local lsp = function()
       local on_attach = function(client, bufnr)
         decoupled.activate('keymaps', 'buffer_lsp', bufnr)
         vim.cmd [[
-          highlight! link DiagnosticUnderlineError DiagnosticError
-          highlight! link DiagnosticUnderlineWarn DiagnosticWarn
-          highlight! link DiagnosticUnderlineInfo DiagnosticInfo
-          highlight! link DiagnosticUnderlineHint DiagnosticHint
+          highlight! DiagnosticUnderlineError gui=underline
+          highlight! DiagnosticUnderlineWarn gui=underline
+          highlight! DiagnosticUnderlineInfo gui=underline
+          highlight! DiagnosticUnderlineHint gui=underline
         ]]
         vim.cmd [[
           aug LspBuffer
@@ -93,7 +93,13 @@ local lsp = function()
         ]]
       end
 
-      local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+      local capabilities
+
+      local cmp_loaded, cmp = pcall(require, 'cmp_nvim_lsp')
+      if cmp_loaded then
+        capabilities = cmp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
+      end
+
 
       local base_config = {
         on_attach = on_attach,
@@ -112,9 +118,14 @@ local lsp = function()
       servers['efm'] = require 'lsp.efm'
       servers['volar'] = require 'lsp.volar'
 
+      local coq_loaded, coq = pcall(require, 'coq')
       for server, config in pairs(servers) do
         config = vim.tbl_deep_extend('keep', config, base_config)
-        lspconfig[server].setup(config)
+        if coq_loaded then
+          lspconfig[server].setup(coq.lsp_ensure_capabilities(config))
+        else
+          lspconfig[server].setup(config)
+        end
       end
     end,
   }

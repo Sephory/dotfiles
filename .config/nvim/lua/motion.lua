@@ -44,6 +44,14 @@ local motion = function()
   plugin 'wellle/targets.vim'
   plugin 'bkad/CamelCaseMotion'
   plugin 'tpope/vim-surround'
+
+  submodule {
+    'gitsigns',
+    function()
+      handle { 'git_next_hunk', ':Gitsigns next_hunk'}
+      handle { 'git_prev_hunk', ':Gitsigns prev_hunk'}
+    end
+  }
 end
 
 return motion

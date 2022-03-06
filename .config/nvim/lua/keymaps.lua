@@ -58,6 +58,8 @@ local keymaps = function()
       ['A'] = { 'ts_prev_parameter', 'Previous Argument' },
       ['j'] = { 'ts_next_block', 'Next Block' },
       ['k'] = { 'ts_prev_block', 'Previous Block' },
+      ['h'] = { 'git_next_hunk', 'Next Hunk' },
+      ['H'] = { 'git_prev_hunk', 'Previous Hunk' },
     },
   }, { mode = '', module = 'motion' })
 
@@ -127,10 +129,21 @@ local keymaps = function()
   }, { module = 'navigation' })
 
   map { '<C-space>', 'complete', mode = 'i', module = 'completion' }
-  map { '<CR>', 'confirm', module = 'completion' }
+  map { '<CR>', 'confirm', mode = 'i', module = 'completion' }
   map { '<C-e>', 'cancel', mode = 'i', module = 'completion' }
   map { '<S-Tab>', 'prev_item', mode = 'i', module = 'completion' }
   map { '<Tab>', 'next_item', mode = 'i', module = 'completion' }
+
+  register({
+    ['<leader>'] = {
+      ['g'] = {
+        name = 'Git',
+        ['k'] = { 'git_preview_hunk', 'Preview Hunk' },
+        ['R'] = { 'git_reset_hunk', 'Reset Hunk' },
+        ['d'] = { 'git_diff', 'Diff' },
+      },
+    },
+  }, { module = 'git' })
 
   submodule {
     'buffer_lsp',

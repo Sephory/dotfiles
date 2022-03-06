@@ -26,7 +26,10 @@ local config_modules = {
 
 local config_submodules = {
   'onedark',
-  'telescope'
+  'cmp',
+  'autopairs',
+  'telescope',
+  'gitsigns'
 }
 
 
